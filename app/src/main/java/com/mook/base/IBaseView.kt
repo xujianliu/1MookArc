@@ -1,6 +1,6 @@
 package com.mook.base
 
-interface BaseView {
+interface IBaseView {
 
     fun showError(message: String)
 

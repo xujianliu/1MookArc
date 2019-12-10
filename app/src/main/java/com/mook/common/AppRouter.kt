@@ -2,7 +2,7 @@ package com.mook.common
 
 import android.content.Context
 import android.content.Intent
-import com.mook.dashboard.login.ui.login.LoginActivity
+import com.mook.dashboard.login.LoginActivity
 
 class AppRouter {
     companion object {

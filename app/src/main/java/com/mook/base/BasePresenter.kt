@@ -3,8 +3,8 @@ package com.mook.base
 import com.mook.model.MookModel
 import io.reactivex.disposables.CompositeDisposable
 
-open class BasePresenter<T : BaseView>(
-    protected var model: MookModel,
+open class BasePresenter<T : IBaseView>(
+    protected var model: MookModel,// 可以定义个IModel  规范所有的model
     protected var view: T
 ) {
     protected var isLoadingLogout: Boolean = false
@@ -18,7 +18,7 @@ open class BasePresenter<T : BaseView>(
         //TODO  logout
     }
 
-    fun destroy(){
+    fun onPresenterDestroy(){
         composite.clear()
     }
 

@@ -7,6 +7,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDexApplication
 import com.mook.common.AppComponent
+import com.mook.module.AppModule
+import com.mook.common.DaggerAppComponent
 
 class BaseApplication :MultiDexApplication(){
 
@@ -20,18 +22,18 @@ class BaseApplication :MultiDexApplication(){
         super.onCreate()
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder().build())
-//        appComponent=Dag
         registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks)
 
+        appComponent= DaggerAppComponent.builder().appModule(AppModule(this)).build()
     }
 
     private val mActivityLifecycleCallbacks= object :ActivityLifecycleCallbacks{
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-            Log.d(TAG,"onActivityCreated${activity.componentName.className}")
+            Log.d(TAG,"onActivityCreated ${activity.componentName.shortClassName}")
         }
 
         override fun onActivityStarted(activity: Activity) {
-            Log.d(TAG,"onActivityStarted${activity.componentName.className}")
+            Log.d(TAG,"onActivityStarted ${activity.componentName.shortClassName}")
         }
 
         override fun onActivityResumed(activity: Activity) {
@@ -47,7 +49,7 @@ class BaseApplication :MultiDexApplication(){
         }
 
         override fun onActivityDestroyed(activity: Activity) {
-            Log.d(TAG,"onActivityDestroyed${activity.componentName.className}")
+            Log.d(TAG,"onActivityDestroyed ${activity.componentName.shortClassName}")
         }
 
         override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {

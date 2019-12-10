@@ -1,10 +1,11 @@
 package com.mook.model.network
 
+import com.mook.BuildConfig
 import com.mook.model.network.response.AuthorInfoBean
 import com.mook.model.network.response.BaseResponse
+import com.mook.model.network.response.LoginResponse
 import io.reactivex.Observable
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -12,7 +13,11 @@ interface ApiService {
     /**
      * 作者信息
      */
-    @GET("v4/pgcs/detail/tab?")
-    fun getAuthorInfo(@Query("id") id: Long):Observable<BaseResponse<AuthorInfoBean>>
+    @GET(BuildConfig.ENDPOINT + "users/{username}")
+    fun getAuthorInfo(@Path("username") username: String): Observable<BaseResponse<AuthorInfoBean>>
+
+    @FormUrlEncoded
+    @POST(BuildConfig.ENDPOINT + "user/login")
+    fun login(@FieldMap request: Map<String, @JvmSuppressWildcards Any>): Observable<BaseResponse<LoginResponse>>
 
 }

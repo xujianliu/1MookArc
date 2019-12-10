@@ -1,21 +1,21 @@
-package com.mook.dashboard.mine
+package com.mook.dashboard.login
 
 import com.mook.base.BasePresenter
 import com.mook.common.AppConstants
 import com.mook.model.MookModel
 import com.mook.model.network.NetworkError
 import com.mook.model.network.ResponseCallback
-import com.mook.model.network.response.AuthorInfoBean
+import com.mook.model.network.request.LoginRequest
+import com.mook.model.network.response.LoginResponse
 
-class MinePresenter(model: MookModel, view: MineView) : BasePresenter<MineView>(model, view) {
+class LoginPresenter(model: MookModel, view: LoginView) : BasePresenter<LoginView>(model, view) {
 
-    fun getAuthorInfo(username: String) {
+    fun login(loginRequest: LoginRequest) {
         view.startLoading()
-
-        val disposable = model.getAuthorInfo(username, object : ResponseCallback<AuthorInfoBean> {
-            override fun onSuccess(response: AuthorInfoBean?) {
+        val disposable = model.login(loginRequest, object : ResponseCallback<LoginResponse> {
+            override fun onSuccess(response: LoginResponse?) {
                 view.stopLoading()
-                view.successGetAuthorInfo(response)
+                view.successfulLogin(response)
             }
 
             override fun onError(error: NetworkError) {
@@ -29,5 +29,4 @@ class MinePresenter(model: MookModel, view: MineView) : BasePresenter<MineView>(
         })
         composite.add(disposable)
     }
-
 }

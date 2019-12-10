@@ -1,8 +1,9 @@
-package com.mook.model.network
+package com.mook.module
 
-import android.content.Context
 import com.mook.BuildConfig
 import com.mook.model.MookModel
+import com.mook.model.network.ApiService
+import com.mook.model.network.HttpHeaderInterceptor
 import com.mook.stored.PreferencesManager
 import dagger.Module
 import dagger.Provides
@@ -28,7 +29,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesHttpHeaderInterceptor(context: Context, preferencesManager: PreferencesManager): HttpHeaderInterceptor = HttpHeaderInterceptor(preferencesManager)
+    fun providesHttpHeaderInterceptor(preferencesManager: PreferencesManager): HttpHeaderInterceptor =
+        HttpHeaderInterceptor(preferencesManager)
 
     @Provides
     @Singleton
@@ -76,23 +78,12 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
-
+    fun providesApiService(retrofit: Retrofit): ApiService = retrofit.create(
+        ApiService::class.java)
 
     @Provides
     @Singleton
     fun providesMookModel(apiService: ApiService): MookModel = MookModel(apiService)
-//
-//    @Provides
-//    @Singleton
-//    fun profivesHeaderlessNetworkService(@Named("NonHeaderRetrofit") retrofit: Retrofit): HeaderlessNetworkService = retrofit.create(HeaderlessNetworkService::class.java)
-//
-//    @Provides
-//    @Singleton
-//    fun providesAuthApiService(headerlessNetworkService: HeaderlessNetworkService): AuthApiService = AuthApiService(headerlessNetworkService)
-//
-//    @Provides
-//    @Singleton
-//    fun providesAwsApiService(headerlessNetworkService: HeaderlessNetworkService): AwsApiService = AwsApiService(headerlessNetworkService)
+
 
 }

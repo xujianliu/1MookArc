@@ -24,7 +24,7 @@ fun <T : Any> Observable<BaseResponse<T>>.subscribe(onSuccess: (BaseResponse<T>)
 
     return this.subscribe({ response: BaseResponse<T> ->
         when (response.code) {
-            200 -> {
+            0,200 -> {
                 onSuccess(response)
             }
             500, 503 -> {

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.mook.R
+import com.mook.common.AppComponent
 import com.mook.common.AppRouter
 import com.mook.model.MookModel
 import com.mook.stored.PreferencesManager
@@ -12,15 +13,15 @@ import com.mook.widget.ProgressDialog
 import javax.inject.Inject
 
 
-open class BaseActivity<V : BaseView,P : BasePresenter<V>> : AppCompatActivity(), BaseView {
+open class BaseActivity<V : IBaseView, P : BasePresenter<V>> : AppCompatActivity(), IBaseView {
 
     private var toolbar: Toolbar? = null
     protected var progressDialog: ProgressDialog? = null
 
+//    @Inject
+    lateinit var presenter: P
     @Inject
-    lateinit var model: MookModel
-    lateinit var presenter:P
-    lateinit var preferences:PreferencesManager
+    lateinit var preferences: PreferencesManager
 
     override fun setContentView(layoutResID: Int) {
         super.setContentView(layoutResID)
@@ -33,8 +34,10 @@ open class BaseActivity<V : BaseView,P : BasePresenter<V>> : AppCompatActivity()
         toolbar?.let { setSupportActionBar(it) }
     }
 
-    protected fun setToolbarTitle(title:String){
-        supportActionBar?.let { it.title=title }
+    protected fun getAppComponent(): AppComponent = (application as BaseApplication).appComponent
+
+    protected fun setToolbarTitle(title: String) {
+        supportActionBar?.let { it.title = title }
     }
 
     protected fun showToolbarBackButton(showed: Boolean) {
@@ -53,17 +56,17 @@ open class BaseActivity<V : BaseView,P : BasePresenter<V>> : AppCompatActivity()
         builder.show()
     }
 
-    protected open fun showDialogBase() : AlertDialog.Builder{
+    protected open fun showDialogBase(): AlertDialog.Builder {
         val builder = AlertDialog.Builder(this)
         builder.create()
         return builder
     }
 
-    fun showProgressDialog(message: String=getString(R.string.please_wait)) {
-        if (progressDialog==null){
+    fun showProgressDialog(message: String = getString(R.string.please_wait)) {
+        if (progressDialog == null) {
             progressDialog = ProgressDialog.Builder(this).setMessage(message).build()
             progressDialog?.show()
-        }else if(progressDialog!=null && progressDialog!!.isShowing){
+        } else if (progressDialog != null && progressDialog!!.isShowing) {
             progressDialog!!.setMessage(message)
         }
 
@@ -91,8 +94,8 @@ open class BaseActivity<V : BaseView,P : BasePresenter<V>> : AppCompatActivity()
     }
 
     override fun onDestroy() {
-        presenter.destroy()
         super.onDestroy()
+        presenter.onPresenterDestroy()
     }
 
     override fun setDelay() {
@@ -118,5 +121,6 @@ open class BaseActivity<V : BaseView,P : BasePresenter<V>> : AppCompatActivity()
             this.finish()
         }
     }
+
 
 }

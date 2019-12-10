@@ -3,6 +3,9 @@
     xmlns:dist="http://schemas.android.com/apk/distribution"
     package="com.mook">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <dist:module dist:instant="true" />
 
     <application
@@ -14,9 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".dashboard.login.LoginActivity"
             android:label="@string/title_activity_login" />
-
         <activity android:name=".dashboard.home.HomeActivity" />
         <activity android:name=".dashboard.mine.MineActivity" />
         <activity android:name=".MainActivity">

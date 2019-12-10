@@ -1,9 +1,9 @@
 package com.mook.dashboard.mine
 
-import com.mook.base.BaseView
+import com.mook.base.IBaseView
 import com.mook.model.network.response.AuthorInfoBean
 
-interface MineView : BaseView {
+interface MineView : IBaseView {
 
 
     fun successGetAuthorInfo(response: AuthorInfoBean?)
